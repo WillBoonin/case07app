@@ -1,28 +1,32 @@
-name: Deploy to Azure Web App
+\name: Deploy to Azure Web App (Kudu ZIP)
 
 on:
   push:
     branches: [ "main" ]
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
+    - name: Checkout
       uses: actions/checkout@v3
 
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: "3.11"
+        python-version: '3.11'
 
     - name: Install dependencies
       run: |
+        pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Deploy to Azure Web App
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: "case07appv2"
-        publish-profile: ${{ secrets.AZUREAPPPUBLISHPROFILE }}
+    - name: Create deployment ZIP
+      run: zip -r app.zip .
+
+    - name: Deploy to Azure App Service using zipdeploy
+      run: |
+        curl -X POST "https://case07appv2.scm.azurewebsites.net/api/zipdeploy" \
+        -u "${{ secrets.AZURE_DEPLOY_USER }}:${{ secrets.AZURE_DEPLOY_PASS }}" \
+        --data-binary @app.zip
