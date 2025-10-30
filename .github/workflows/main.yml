@@ -23,7 +23,7 @@ jobs:
         pip install -r requirements.txt
 
     - name: Create deployment ZIP
-      run: zip -r app.zip .
+      run: zip -r app.zip . -x "*.git*" -x "*.venv*" -x "*.zip"
 
     - name: Deploy to Azure App Service using zipdeploy
       run: |
