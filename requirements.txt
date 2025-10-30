@@ -1,0 +1,4 @@
+Flask==2.3.2
+azure-storage-blob==12.16.0
+gunicorn==21.2.0
+six==1.16.0
