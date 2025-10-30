@@ -26,7 +26,7 @@ jobs:
       run: zip -r app.zip . -x "*.git*" -x "*.venv*" -x "*.zip"
 
     - name: Deploy to Azure App Service using zipdeploy
-      run: |
-        curl -X POST "https://case07appv2.scm.azurewebsites.net/api/zipdeploy" \
-        -u "${{ secrets.AZURE_DEPLOY_USER }}:${{ secrets.AZURE_DEPLOY_PASS }}" \
-        --data-binary @app.zip
+  run: |
+    curl -X POST "https://case07appv2.scm.azurewebsites.net/api/zipdeploy" \
+      -u "${{ secrets.AZURE_DEPLOY_USER }}:${{ secrets.AZURE_DEPLOY_PASS }}" \
+      --data-binary @app.zip
