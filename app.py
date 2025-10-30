@@ -2,10 +2,14 @@ import os
 from datetime import datetime
 from flask import Flask, request, jsonify, render_template
 from azure.storage.blob import BlobServiceClient
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # --- Config ---
-CONN_STR = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
-CONTAINER_NAME = "uploads"   # Required by Case-07
+CONN_STR = os.environ["AZURE_STORAGE_CONNECTION_STRING"]
+CONTAINER_NAME = os.environ.get("AZURE_STORAGE_CONTAINER_NAME", "uploads")
+#CONTAINER_NAME = "uploads"   # Required by Case-07
 
 if not CONN_STR:
     raise SystemExit("Missing AZURE_STORAGE_CONNECTION_STRING")
